@@ -1,0 +1,47 @@
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const tableTitles = [
+        "'Latest' - Missing and errored trades (per COB, HBD0 only):",
+        "'Latest' - Extra trades (HBD0 only):",
+        "'Latest' - Zero value trades",
+        "'Latest' - RaPValue specific trades"
+    ];
+
+    tableTitles.forEach(title => {
+        const tableSection = Array.from(document.querySelectorAll('h2')).find(h2 => h2.textContent.includes(title));
+        if (!tableSection) return;
+
+        const table = tableSection.nextElementSibling.querySelector('table');
+        if (!table) return;
+
+        const rows = table.querySelectorAll('tbody tr');
+        const totalRows = rows.length;
+        if (totalRows <= 5) return;
+
+        for (let i = 5; i < rows.length; i++) {
+            rows[i].style.display = 'none';
+        }
+
+        const button = document.createElement('button');
+        button.textContent = `Expand (${totalRows} rows)`;
+        button.style.display = 'block';
+        button.style.margin = '10px 0';
+
+        button.addEventListener('click', function() {
+            if (button.textContent.startsWith('Expand')) {
+                for (let i = 5; i < rows.length; i++) {
+                    rows[i].style.display = '';
+                }
+                button.textContent = `Collapse (${totalRows} rows)`;
+            } else {
+                for (let i = 5; i < rows.length; i++) {
+                    rows[i].style.display = 'none';
+                }
+                button.textContent = `Expand (${totalRows} rows)`;
+            }
+        });
+
+        table.parentNode.insertBefore(button, table.nextSibling);
+    });
+});
+</script>
