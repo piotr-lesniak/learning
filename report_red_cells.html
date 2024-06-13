@@ -1,0 +1,85 @@
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Select all h3 elements
+            let headers = document.querySelectorAll("div.table-wrapper > h3");
+
+            headers.forEach(function(header) {
+                // Check if the header text contains "Differences (Latest minus Baseline):"
+                if (header.textContent.includes("Differences (Latest minus Baseline):")) {
+                    // Get the next sibling div and its table
+                    let tableWrapper = header.nextElementSibling;
+                    if (tableWrapper && tableWrapper.tagName === "DIV") {
+                        let table = tableWrapper.querySelector("table");
+                        if (table) {
+                            // Loop through rows and cells
+                            for (let i = 1; i < table.rows.length; i++) {
+                                for (let j = 1; j < table.rows[i].cells.length; j++) {
+                                    let cellValue = parseFloat(table.rows[i].cells[j].textContent);
+                                    if (cellValue !== 0) {
+                                        table.rows[i].cells[j].style.backgroundColor = "lightgreen";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+
+Explanation of the updated code:
+
+CSS: No changes were made to the existing styles.
+JavaScript:
+Select all <h3> elements that are direct children of <div class="table-wrapper">.
+Check if the <h3> element's text contains "Differences (Latest minus Baseline):".
+If it does, get the next sibling <div> and find the <table> within it.
+Iterate over the rows and cells (excluding the first row and first column).
+If the cell value is not 0, change the cell's background color to light green.
+This script should be placed within the <head> section of your HTML document. It will execute after the document has fully loaded and apply the necessary styles to the specified cells.
+
+
+
+
+
+_____
+
+
+
+
+
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Select all table-wrapper divs within tables-container
+            let tableWrappers = document.querySelectorAll("div.tables-container > div.table-wrapper");
+
+            tableWrappers.forEach(function(wrapper) {
+                // Find the h3 element inside the current wrapper
+                let header = wrapper.querySelector("h3");
+               
+                // Check if the header text contains "Differences (Latest minus Baseline):"
+                if (header && header.textContent.includes("Differences (Latest minus Baseline):")) {
+                    // Find the table within the current wrapper
+                    let table = wrapper.querySelector("table");
+                    if (table) {
+                        // Loop through rows and cells
+                        for (let i = 1; i < table.rows.length; i++) {
+                            for (let j = 1; j < table.rows[i].cells.length; j++) {
+                                let cellValue = parseFloat(table.rows[i].cells[j].textContent);
+                                if (cellValue !== 0) {
+                                    table.rows[i].cells[j].style.backgroundColor = "lightgreen";
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+ Changes made:
+The script now selects all div.table-wrapper elements within div.tables-container.
+For each table-wrapper, it checks if there is an h3 element with the text "Differences (Latest minus Baseline):".
+If such an h3 is found, it processes the table within the same table-wrapper.
+This script should now apply the background color change to all relevant tables within the document.
