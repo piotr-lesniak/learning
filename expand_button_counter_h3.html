@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        h1 {
+            font-size: 200%;
+        }
+        h2 {
+            font-size: 170%;
+        }
+        h3 {
+            font-size: 120%;
+            font-weight: bold;
+            text-align: justify;
+        }
+        body {
+            font-family: Calibri;
+            margin-left: 30px;
+        }
+        th {
+            border: 1px solid black;
+            border-bottom: 3px solid black;
+            text-align: center;
+            color: #121111;
+            background-color: #59ebbd;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        td {
+            border: 1px solid grey;
+            text-align: right;
+            margin-left: inherit;
+            padding: 2px;
+            white-space: nowrap;
+            min-width: 50px;
+        }
+        tr.noBorder td {
+            border: 0;
+        }
+        .wrapper {
+            display: inline-flex;
+            padding-bottom: 20px;
+        }
+        .difference-in-red {
+            color: red;
+        }
+        table {
+            border-collapse: collapse;
+            table-layout: fixed;
+            white-space: nowrap;
+        }
+        .full-width {
+            width: 100%;
+        }
+        hr {
+            display: block;
+            height: 3px;
+            border: 0;
+            border-top: 2px solid #000000;
+            margin: 1em 0;
+            padding: 0;
+            width: 700px;
+        }
+    </style>
+</head>
+<body>
+    <h1>report</h1>
+    <h2>Comparison between 'Baseline' and 'Latest' for paths:</h2>
+    <h3>Baseline: asd<br>Latest: asd</h3>
+    <h3>Baseline grid lib version: None<br>Latest grid lib version: 1111</h3>
+    <h3>Baseline qualifiers: None<br>Latest qualifiers: {}</h3>
+    <h2>'Latest' batch statuses:</h2>
+    <div class="wrapper">
+        <table class="dataframe lhbt_evidence">
+            <!-- Table content here -->
+        </table>
+    </div>
+    <hr>
+    <h2>Total Trades count comparison (by HBD)</h2>
+    <div class="wrapper">
+        <table>
+            <!-- Table content here -->
+        </table>
+    </div>
+    <hr>
+    <h2>'Latest' - Missing and errored trades (per COB, HBD0 only):</h2>
+    <div class="wrapper">
+        <table class="dataframe lhbt_evidence">
+            <!-- Table content here -->
+        </table>
+    </div>
+    <hr>
+    <h2>'Latest' - Extra trades (HBD0 only):</h2>
+    <div class="wrapper">
+        <table class="dataframe lhbt_evidence">
+            <!-- Table content here -->
+        </table>
+    </div>
+    <hr>
+    <h2>'Latest' - Zero value trades</h2>
+    <h3>some description</h3>
+    <div class="wrapper">
+        <table class="dataframe lhbt_evidence">
+            <!-- Table content here -->
+        </table>
+    </div>
+    <hr>
+    <h2>'Latest' - RaPValue specific trades</h2>
+    <div class="wrapper">
+        <table class="dataframe lhbt_evidence">
+            <!-- Table content here -->
+        </table>
+    </div>
+    <hr>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const tableTitles = [
+                "'Latest' - Missing and errored trades (per COB, HBD0 only):",
+                "'Latest' - Extra trades (HBD0 only):",
+                "'Latest' - Zero value trades",
+                "'Latest' - RaPValue specific trades"
+            ];
+
+            tableTitles.forEach(title => {
+                const tableSection = Array.from(document.querySelectorAll('h2')).find(h2 => h2.textContent.includes(title));
+                if (!tableSection) return;
+
+                let nextElement = tableSection.nextElementSibling;
+                while (nextElement && nextElement.tagName !== 'TABLE') {
+                    nextElement = nextElement.nextElementSibling;
+                }
+
+                const table = nextElement;
+                if (!table) return;
+
+                const rows = table.querySelectorAll('tbody tr');
+                const totalRows = rows.length;
+                if (totalRows <= 5) return;
+
+                for (let i = 5; i < rows.length; i++) {
+                    rows[i].style.display = 'none';
+                }
+
+                const button = document.createElement('button');
+                button.textContent = `Expand (${totalRows} rows)`;
+                button.style.display = 'block';
+                button.style.margin = '10px 0';
+
+                button.addEventListener('click', function() {
+                    if (button.textContent.startsWith('Expand')) {
+                        for (let i = 5; i < rows.length; i++) {
+                            rows[i].style.display = '';
+                        }
+                        button.textContent = `Collapse (${totalRows} rows)`;
+                    } else {
+                        for (let i = 5; i < rows.length; i++) {
+                            rows[i].style.display = 'none';
+                        }
+                        button.textContent = `Expand (${totalRows} rows)`;
+                    }
+                });
+
+                table.parentNode.insertBefore(button, table.nextSibling);
+            });
+        });
+    </script>
+</body>
+</html>
